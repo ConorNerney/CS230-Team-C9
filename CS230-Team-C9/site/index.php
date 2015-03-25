@@ -1,0 +1,1 @@
+<?php ?><!DOCTYPE html><html>	<head>		<title>"C9 Paradise"</title>	</head>	<body>		<?php			require("content/index.html");		?>	</body></html>
