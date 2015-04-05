@@ -1,0 +1,3 @@
+Cleaned up PHP files
+Started a session object
+Changed variable PHP instantiation to use HTML comments.

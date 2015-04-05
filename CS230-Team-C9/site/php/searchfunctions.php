@@ -1,0 +1,4 @@
+function returnSearchQuery($searchstr, $order)
+{
+	
+}
