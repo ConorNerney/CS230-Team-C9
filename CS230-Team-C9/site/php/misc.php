@@ -44,5 +44,29 @@ function makeQuery($query)
 	return pg_fetch_all($qresult);
 }
 
+function populateSearchEntryHtml($sqlRow, $searchEntryHtml)
+{
+	$searchEntryHtml = str_replace(
+		array("<!--INST_SR_NAME-->", "<!--INST_SR_IMGSRC-->", "<!--INST_SR_AUTHOR-->","<!--INST_SR_DESCRIPTION-->",
+			"<!--INST_SR_PRICE-->","<!--INST_SR_AVAILABLE-->", "<!--INST_SR_ID-->"),
+		array($sqlRow['title'], $sqlRow['imgs'], $sqlRow['author'], $sqlRow['description1'], $sqlRow['price'], $sqlRow['stock'], $sqlRow['id']),
+		$searchEntryHtml);
+
+	return $searchEntryHtml;
+}
+
+function populateBookHtml($sqlRow, $searchEntryHtml)
+{
+	$searchEntryHtml = str_replace(
+		array("<!--INST_SR_NAME-->", "<!--INST_SR_IMGSRC-->", "<!--INST_SR_AUTHOR-->",
+			"<!--INST_SR_DESCRIPTION-->", "<!--INST_SR_PRICE-->", "<!--INST_SR_AVAILABLE-->"),
+		array($sqlRow['title'], $sqlRow['imgs'], $sqlRow['author'],
+			$sqlRow['description1'], $sqlRow['price'], $sqlRow['stock']), $searchEntryHtml);
+	
+	
+	return $searchEntryHtml;
+}
+
+
 
 ?>
