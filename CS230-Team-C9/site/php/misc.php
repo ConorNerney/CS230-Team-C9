@@ -73,9 +73,9 @@ function populateBookHtml($bookRow, $bookhtml)
 function handleBookPurchase($bookRow, $bookhtml)
 {
 	//Check if the user added the item to the cart.
-	if(array_key_exists('quantity', $_POST))
+	if(isset($_POST['quantity']))
 	{
-		if(!array_key_exists('basket', $_SESSION) or ($_SESSION['basket']==null))
+		if(!isset($_SESSION['basket']))
 		{
 			$_SESSION['basket'] = new Basket();
 		}

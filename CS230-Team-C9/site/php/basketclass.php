@@ -3,8 +3,8 @@
 function populateSingleBasketEntryHtml($sqlRow, $html, $quantity)
 {
     return str_replace(
-    array("<!--INST_BE_NAME-->", "<!--INST_BE_AUTHOR-->", "<!--INST_BE_UNITCOST-->", "<!--INST_BE_TOTALCOST-->", "<!--INST_BE_QUANTITY-->"),
-	array($sqlRow['title'], $sqlRow['author'], $sqlRow['price'], $sqlRow['price']*$quantity, $quantity),
+    array("<!--INST_BE_ID-->", "<!--INST_BE_NAME-->", "<!--INST_BE_AUTHOR-->", "<!--INST_BE_UNITCOST-->", "<!--INST_BE_TOTALCOST-->", "<!--INST_BE_QUANTITY-->"),
+	array($sqlRow['id'], $sqlRow['title'], $sqlRow['author'], $sqlRow['price'], $sqlRow['price']*$quantity, $quantity),
 	$html);
 }
 
@@ -15,7 +15,7 @@ class Basket
 	//Format: 'id:?' => quantity
 	var $items = [];
 
-	function addItem($id, $quantity)
+	public function addItem($id, $quantity)
 	{
 		if($quantity != 0)
 		{
@@ -25,13 +25,20 @@ class Basket
 			else
 				$this->items["id:".$id] = $quantity;
 		}
+	}
 
+	public function removeItem($id)
+	{
+		//If the item does not exist in the basket, ignore it.
+		$idstr = 'id:'.$id;
+		if(isset($_SESSION['basket']->items[$idstr]))
+			unset($_SESSION['basket']->items[$idstr]);
 	}
 
 	/*
 	* Assumes that sql is initialised.
 	*/
-	function printBasket($baskethtml)
+	public function printBasket($baskethtml)
 	{
 		$basketentry = file_get_contents("content/singlebasketentry.html");
 		$entries = "";
