@@ -55,17 +55,41 @@ function populateSearchEntryHtml($sqlRow, $searchEntryHtml)
 	return $searchEntryHtml;
 }
 
-function populateBookHtml($sqlRow, $searchEntryHtml)
+
+function populateBookHtml($bookRow, $bookhtml)
 {
-	$searchEntryHtml = str_replace(
-		array("<!--INST_SR_NAME-->", "<!--INST_SR_IMGSRC-->", "<!--INST_SR_AUTHOR-->",
-			"<!--INST_SR_DESCRIPTION-->", "<!--INST_SR_PRICE-->", "<!--INST_SR_AVAILABLE-->"),
-		array($sqlRow['title'], $sqlRow['imgs'], $sqlRow['author'],
-			$sqlRow['description1'], $sqlRow['price'], $sqlRow['stock']), $searchEntryHtml);
+	return str_replace(
+			array("<!--INST_B_TITLE-->", "<!--INST_B_QUANTITY-->", "<!--INST_B_AUTHOR-->", "<!--INST_B_PRICE-->", "<!--INST_B_DESCRIPTION-->", "<!--INST_B_IMAGE-->"),
+			array($bookRow['title'], $bookRow['stock'], $bookRow['author'], $bookRow['price'], $bookRow['description1'], $bookRow['imgs']),
+			$bookhtml);
 	
 	
 	return $searchEntryHtml;
 }
+
+/*
+* if a purchase was made in the book page, it is handled here.
+*/
+function handleBookPurchase($bookRow, $bookhtml)
+{
+	//Check if the user added the item to the cart.
+	if(array_key_exists('quantity', $_POST))
+	{
+		if(!array_key_exists('basket', $_SESSION) or ($_SESSION['basket']==null))
+		{
+			$_SESSION['basket'] = new Basket();
+		}
+		
+		$_SESSION['basket']->addItem($bookRow['id'], $_POST['quantity']);
+
+		$bookhtml = str_replace("<!--INST_ORDER_CONFIRMATION_MESSAGE-->",
+			file_get_contents("content/bookpurchaseconfirmation.html", true), $bookhtml);
+		$_POST = array();
+	}
+
+	return $bookhtml;
+}
+
 
 
 
